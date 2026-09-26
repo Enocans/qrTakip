@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Okan Akın | LGS Takip</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --soft: #eff6ff;
+            --line: #dbeafe;
+            --text: #1f2937;
+            --muted: #64748b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            font-family: Arial, sans-serif;
+            color: var(--text);
+        }
+        .shell {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 18px 14px 40px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            padding: 18px 16px 20px;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--soft);
+            color: var(--accent);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            color: var(--primary);
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin: 0 0 18px;
+            font-size: 14px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+        }
+        .hero strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .hero span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        input, textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-size: 15px;
+            background: white;
+            color: var(--text);
+        }
+        textarea {
+            min-height: 88px;
+            resize: vertical;
+        }
+        .full {
+            grid-column: 1 / -1;
+        }
+        .section {
+            margin-top: 18px;
+        }
+        .section-title {
+            margin: 0 0 12px;
+            font-size: 16px;
+            color: var(--primary);
+        }
+        .subject-box {
+            border: 1px solid var(--line);
+            background: #f8fbff;
+            border-radius: 12px;
+            padding: 12px;
+        }
+        .subject-box h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+        }
+        .subject-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .submit {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: var(--accent);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 16px;
+            margin-top: 18px;
+            cursor: pointer;
+        }
+        .meta {
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .meta a {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        @media (max-width: 420px) {
+            .grid, .subject-grid {
+                grid-template-columns: 1fr;
+            }
+            .shell {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="card">
+            <div class="tag">LGS Takip</div>
+            <h1>Okan Akın</h1>
+            <p class="subtitle">Günlük soru takibi ve gelişim kaydı</p>
+
+            <div class="hero">
+                <strong>Öğretmen: {{ teacher_name }}</strong>
+                <span>Günlük hedefler otomatik olarak tek merkezde kaydedilir.</span>
+            </div>
+
+            <form action="{{ url_for('submit_record') }}" method="post">
+                <div class="grid">
+                    <div class="field full">
+                        <label for="student_name">Öğrenci Adı Soyadı</label>
+                        <input id="student_name" name="student_name" type="text" value="Okan Akın" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="father_name">Baba Adı</label>
+                        <input id="father_name" name="father_name" type="text" placeholder="Baba adı" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="date">Tarih</label>
+                        <input id="date" name="date" type="text" value="{{ today }}" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="teacher_name">Öğretmen</label>
+                        <input id="teacher_name" name="teacher_name" type="text" value="{{ teacher_name }}" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">Veli Telefon</label>
+                        <input id="phone" name="phone" type="tel" placeholder="05xx xxx xx xx">
+                    </div>
+
+                    <div class="field">
+                        <label for="study_time">Çalışma Süresi</label>
+                        <input id="study_time" name="study_time" type="text" placeholder="2 saat 30 dk">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Günlük Sonuç</h2>
+                    <div class="subject-grid">
+                        <div class="subject-box">
+                            <h3>Türkçe</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="turkce_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="turkce_wrong" min="0" value="0"></div>
+                        </div>
+                        <div class="subject-box">
+                            <h3>Matematik</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="matematik_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="matematik_wrong" min="0" value="0"></div>
+                        </div>
+                        <div class="subject-box">
+                            <h3>Fen</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="fen_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="fen_wrong" min="0" value="0"></div>
+                        </div>
+                        <div class="subject-box">
+                            <h3>İnkılap</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="inkilap_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="inkilap_wrong" min="0" value="0"></div>
+                        </div>
+                        <div class="subject-box">
+                            <h3>İngilizce</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="ingilizce_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="ingilizce_wrong" min="0" value="0"></div>
+                        </div>
+                        <div class="subject-box">
+                            <h3>Din</h3>
+                            <div class="field"><label>Doğru</label><input type="number" name="din_correct" min="0" value="0"></div>
+                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="din_wrong" min="0" value="0"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="field full">
+                        <label for="notes">Not</label>
+                        <textarea id="notes" name="notes" placeholder="Günlük gelişim notu..."></textarea>
+                    </div>
+                </div>
+
+                <button class="submit" type="submit">Kaydet</button>
+            </form>
+
+            <div class="meta">
+                <a href="{{ url_for('report') }}">Rapor</a>
+                <a href="{{ url_for('download_excel') }}">Excel</a>
+                <a href="{{ url_for('qr_code') }}" target="_blank">QR</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
