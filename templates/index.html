@@ -1,274 +1,31 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Okan Akın | LGS Takip</title>
-    <style>
-        :root {
-            --bg: #f4f7fb;
-            --card: #ffffff;
-            --primary: #0f172a;
-            --accent: #2563eb;
-            --soft: #eff6ff;
-            --line: #dbeafe;
-            --text: #1f2937;
-            --muted: #64748b;
-        }
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            background: var(--bg);
-            font-family: Arial, sans-serif;
-            color: var(--text);
-        }
-        .shell {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 18px 14px 40px;
-        }
-        .card {
-            background: var(--card);
-            border-radius: 18px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            padding: 18px 16px 20px;
-        }
-        .tag {
-            display: inline-block;
-            background: var(--soft);
-            color: var(--accent);
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        h1 {
-            margin: 0 0 8px;
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            color: var(--primary);
-            text-align: center;
-        }
-        .subtitle {
-            text-align: center;
-            color: var(--muted);
-            margin: 0 0 18px;
-            font-size: 14px;
-        }
-        .hero {
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 14px 12px;
-            margin-bottom: 18px;
-        }
-        .hero strong {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-        .hero span {
-            color: var(--muted);
-            font-size: 13px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-        label {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        input, textarea {
-            width: 100%;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 11px 12px;
-            font-size: 15px;
-            background: white;
-            color: var(--text);
-        }
-        textarea {
-            min-height: 88px;
-            resize: vertical;
-        }
-        .full {
-            grid-column: 1 / -1;
-        }
-        .section {
-            margin-top: 18px;
-        }
-        .section-title {
-            margin: 0 0 12px;
-            font-size: 16px;
-            color: var(--primary);
-        }
-        .subject-box {
-            border: 1px solid var(--line);
-            background: #f8fbff;
-            border-radius: 12px;
-            padding: 12px;
-        }
-        .subject-box h3 {
-            margin: 0 0 10px;
-            font-size: 15px;
-        }
-        .subject-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .submit {
-            width: 100%;
-            border: none;
-            border-radius: 12px;
-            background: var(--accent);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 14px 16px;
-            margin-top: 18px;
-            cursor: pointer;
-        }
-        .meta {
-            margin-top: 14px;
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .meta a {
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: none;
-        }
-        @media (max-width: 420px) {
-            .grid, .subject-grid {
-                grid-template-columns: 1fr;
-            }
-            .shell {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-        }
-    </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#16715b"><meta name="description" content="Günlük sorularını tek ekranda kaydet.">
+<link rel="manifest" href="/static/manifest.webmanifest"><link rel="icon" href="/static/icon.svg"><link rel="apple-touch-icon" href="/static/icon-192.png"><link rel="stylesheet" href="/static/app.css?v=3">
+<title>Pusula · Günlük Soru Takibi</title><script src="/static/app.js?v=3" defer></script>
 </head>
 <body>
-    <div class="shell">
-        <div class="card">
-            <div class="tag">LGS Takip</div>
-            <h1>Okan Akın</h1>
-            <p class="subtitle">Günlük soru takibi ve gelişim kaydı</p>
-
-            <div class="hero">
-                <strong>Öğretmen: {{ teacher_name }}</strong>
-                <span>Günlük hedefler otomatik olarak tek merkezde kaydedilir.</span>
-            </div>
-
-            <form action="{{ url_for('submit_record') }}" method="post">
-                <div class="grid">
-                    <div class="field full">
-                        <label for="student_name">Öğrenci Adı Soyadı</label>
-                        <input id="student_name" name="student_name" type="text" value="Okan Akın" required>
-                    </div>
-
-                    <div class="field">
-                        <label for="father_name">Baba Adı</label>
-                        <input id="father_name" name="father_name" type="text" placeholder="Baba adı" required>
-                    </div>
-
-                    <div class="field">
-                        <label for="date">Tarih</label>
-                        <input id="date" name="date" type="text" value="{{ today }}" required>
-                    </div>
-
-                    <div class="field">
-                        <label for="teacher_name">Öğretmen</label>
-                        <input id="teacher_name" name="teacher_name" type="text" value="{{ teacher_name }}" required>
-                    </div>
-
-                    <div class="field">
-                        <label for="phone">Veli Telefon</label>
-                        <input id="phone" name="phone" type="tel" placeholder="05xx xxx xx xx">
-                    </div>
-
-                    <div class="field">
-                        <label for="parent_email">Veli E-posta</label>
-                        <input id="parent_email" name="parent_email" type="email" placeholder="veli@example.com">
-                    </div>
-
-                    <div class="field">
-                        <label for="teacher_email">Öğretmen E-posta</label>
-                        <input id="teacher_email" name="teacher_email" type="email" placeholder="ogretmen@example.com" value="{{ teacher_email }}">
-                    </div>
-
-                    <div class="field">
-                        <label for="study_time">Çalışma Süresi</label>
-                        <input id="study_time" name="study_time" type="text" placeholder="2 saat 30 dk">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h2 class="section-title">Günlük Sonuç</h2>
-                    <div class="subject-grid">
-                        <div class="subject-box">
-                            <h3>Türkçe</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="turkce_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="turkce_wrong" min="0" value="0"></div>
-                        </div>
-                        <div class="subject-box">
-                            <h3>Matematik</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="matematik_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="matematik_wrong" min="0" value="0"></div>
-                        </div>
-                        <div class="subject-box">
-                            <h3>Fen</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="fen_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="fen_wrong" min="0" value="0"></div>
-                        </div>
-                        <div class="subject-box">
-                            <h3>İnkılap</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="inkilap_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="inkilap_wrong" min="0" value="0"></div>
-                        </div>
-                        <div class="subject-box">
-                            <h3>İngilizce</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="ingilizce_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="ingilizce_wrong" min="0" value="0"></div>
-                        </div>
-                        <div class="subject-box">
-                            <h3>Din</h3>
-                            <div class="field"><label>Doğru</label><input type="number" name="din_correct" min="0" value="0"></div>
-                            <div class="field" style="margin-top:10px;"><label>Yanlış</label><input type="number" name="din_wrong" min="0" value="0"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="field full">
-                        <label for="notes">Not</label>
-                        <textarea id="notes" name="notes" placeholder="Günlük gelişim notu..."></textarea>
-                    </div>
-                </div>
-
-                <button class="submit" type="submit">Kaydet</button>
-            </form>
-
-            <div class="meta">
-                <a href="{{ url_for('report') }}">Rapor</a>
-                <a href="{{ url_for('download_excel') }}">Excel</a>
-                <a href="{{ url_for('qr_code') }}" target="_blank">QR</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+<aside class="sidebar"><a class="brand" href="/"><span class="brand-icon">↗</span><span>pusula.</span></a><p class="nav-label">ÇALIŞMA ALANIM</p><nav aria-label="Ana menü"><button class="nav-item active" data-view="entry"><span>＋</span> Soru gir</button><button class="nav-item" data-view="reports"><span>▥</span> Raporlar</button><button class="nav-item" data-view="history"><span>◷</span> Günlüğüm</button></nav><div class="sidebar-bottom"><span id="connection">Çevrimiçisin</span></div></aside>
+<div class="main-shell"><header class="topbar"><a class="mobile-brand" href="/">pusula.</a><div class="breadcrumb">Çalışma alanım / <b id="page-label">Soru gir</b></div><div class="top-actions"><button class="install-button" id="install" aria-label="Uygulamayı yükle">↧ Yükle</button><button class="install-button" id="profile-open" aria-label="Öğrenci ve paylaşım ayarları">⚙ <span id="profile-label">Bilgilerim</span></button></div></header>
+<main id="screens">
+<section id="entry-view" aria-label="Günlük soru girişi">
+<div class="entry-heading"><div><p class="eyebrow">HER GÜN BİR ADIM</p><h1>Bugün kaç soru?</h1></div><label class="entry-date"><span>Tarih</span><input type="date" name="date" form="daily-form" value="{{ today }}" max="{{ today }}" required aria-label="Çalışma tarihi"></label></div>
+<form id="daily-form" novalidate>
+<section class="card results-card"><div class="subject-table"><div class="subject-row table-head"><span>DERS</span><span>DOĞRU</span><span>YANLIŞ</span><span>BOŞ</span><span>TOPLAM</span></div>
+{% for key, label, short in subjects %}
+<div class="subject-row" data-subject="{{ key }}"><div class="subject-name"><span class="subject-icon {{ key }}">{{ short }}</span><strong>{{ label }}</strong></div><input type="number" name="{{ key }}_correct" aria-label="{{ label }} doğru" min="0" max="9999" step="1" inputmode="numeric" enterkeyhint="next" placeholder="0"><input type="number" name="{{ key }}_wrong" aria-label="{{ label }} yanlış" min="0" max="9999" step="1" inputmode="numeric" enterkeyhint="next" placeholder="0"><input type="number" name="{{ key }}_blank" aria-label="{{ label }} boş" min="0" max="9999" step="1" inputmode="numeric" enterkeyhint="next" placeholder="0"><output class="subject-total">0</output></div>
+{% endfor %}</div></section>
+<div class="quick-summary" aria-live="polite"><div><strong id="total-questions">0</strong><span>toplam soru</span></div><p><span id="total-correct">0</span> D · <span id="total-wrong">0</span> Y · <span id="total-blank">0</span> B</p><button type="button" id="note-open">＋ Not</button></div>
+<button class="submit-button" type="submit" id="save-button">Kaydet ve paylaş →</button><p id="form-error" class="error" role="alert"></p><p id="draft-status" class="draft-status">Taslağın bu cihazda saklanır.</p>
+</form><div class="swipe-hint" aria-hidden="true"><b>●</b> ○ ○ <span>Raporlar için sola kaydır →</span></div>
+</section>
+<section id="reports-view" hidden aria-label="Çalışma raporları"><div class="page-heading"><div><p class="eyebrow">EMEĞİNİN ÖZETİ</p><h1>Raporlar</h1><p>Son 7 gün ve ders bazında gelişimin.</p></div></div><div id="reports-content" aria-live="polite"></div><div class="swipe-hint" aria-hidden="true">○ <b>●</b> ○ <span>Günlüğün için sola kaydır →</span></div></section>
+<section id="history-view" hidden aria-label="Çalışma günlüğü"><div class="page-heading"><div><p class="eyebrow">GÜN GÜN İLERLEYİŞİN</p><h1>Günlüğüm</h1><p>Kayıtların ve WhatsApp gönderim durumları.</p></div><a class="install-button" href="/download">Excel ↧</a></div><div id="history-list"></div></section>
+</main></div>
+<dialog id="profile-dialog"><button class="dialog-close" type="button" aria-label="Kapat">×</button><h2>Seni tanıyalım</h2><p>Bir kez doldur. Sonraki girişlerde yalnızca sorularını ekle.</p><div class="profile-fields"><label>Adın ve soyadın<input form="daily-form" name="student_name" autocomplete="name" maxlength="100" placeholder="Ad soyad" required></label><label>Babanın WhatsApp numarası<input form="daily-form" type="tel" name="father_phone" placeholder="+90 5xx xxx xx xx" required></label>{% if teacher_locked %}<p>Öğretmenin sistemde kayıtlı ✓</p>{% else %}<label>Öğretmeninin WhatsApp numarası<input form="daily-form" type="tel" name="teacher_phone" placeholder="+90 5xx xxx xx xx" required></label>{% endif %}<label class="check-label"><input form="daily-form" type="checkbox" name="consent" required><span>Çalışma kayıtlarımın bu numaralara WhatsApp ile gönderilmesini onaylıyorum; alıcıların bildirim izni var.</span></label></div><p class="provider-note" id="provider-note">Bildirim bağlantısı kontrol ediliyor…</p><p id="profile-error" class="error" role="alert"></p><button type="button" class="submit-button" id="profile-save">Bilgilerimi kaydet</button><button type="button" class="text-button" id="qr-open">QR ile başka telefonda aç</button></dialog>
+<dialog id="note-dialog"><button class="dialog-close" type="button" aria-label="Kapat">×</button><h2>Bugünden bir not</h2><label><textarea form="daily-form" name="notes" rows="4" maxlength="500" placeholder="Hangi konularda zorlandın?"></textarea></label><button type="button" class="submit-button" id="note-save">Tamam</button></dialog>
+<dialog id="result-dialog"><div class="success-icon">✓</div><h2>Çalışman kaydedildi!</h2><p id="saved-summary"></p><div id="notification-results"></div><button type="button" class="submit-button" id="result-close">Günlüğümü gör →</button></dialog>
+<dialog id="qr-dialog"><button class="dialog-close" type="button" aria-label="Kapat">×</button><h2>Telefonundan devam et</h2><img src="/qr" alt="Uygulama QR kodu" width="220" height="220"><p>Geçmişin, kaydettiğin tarayıcıya özeldir.</p></dialog>
+<dialog id="install-dialog"><button class="dialog-close" type="button" aria-label="Kapat">×</button><h2>Pusula hep yanında</h2><p>iPhone / Safari: Paylaş → Ana Ekrana Ekle.</p><p>Android / Chrome: Menü → Uygulamayı yükle.</p><p>Kurulum için HTTPS bağlantısı gereklidir.</p></dialog>
+</body></html>

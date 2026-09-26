@@ -1,15 +1,10 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.py"
-    }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python build_assets.py",
+  "functions": {
+    "app.py": { "maxDuration": 60 }
+  },
+  "headers": [
+    { "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
   ]
 }

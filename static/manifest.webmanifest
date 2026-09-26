@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "Pusula · Günlük Soru Takibi",
+  "short_name": "Pusula",
+  "description": "Günlük sorularını kaydet, gelişimini takip et, WhatsApp ile paylaş.",
+  "lang": "tr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f8f7",
+  "theme_color": "#16715b",
+  "icons": [
+    {"src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
