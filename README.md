@@ -47,7 +47,7 @@ Gönderim, kayıt sonrasında otomatik yapılır. Ekran iki alıcı için ayrı 
 4. `PUBLIC_URL` değerini uygulamanın HTTPS adresi yapın. Oturum çerezleri Vercel'de otomatik olarak Secure olur.
 5. WhatsApp için `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_FROM`, `TWILIO_DAILY_CONTENT_SID` ve isteğe bağlı `TEACHER_PHONE` ekleyin; ardından Deploy/Redeploy yapın.
 
-Vercel'de DATABASE_URL veya SECRET_KEY eksikse uygulama açık bir yapılandırma hatasıyla durur; geçici SQLite dosyasına kayıt yapmaz. Tablo ilk veritabanı erişiminde oluşturulur. Yerel SQLite kayıtları PostgreSQL'e otomatik aktarılmaz. Önizleme ve üretim ortamları için ayrı veritabanları kullanın. PostgreSQL adaptörü taklit bağlantıyla test edildi; gerçek sunucu bağlantısı dağıtımda doğrulanmalıdır.
+Vercel'de DATABASE_URL veya SECRET_KEY eksikse uygulama bir kurulum sayfası gösterir; geçici SQLite dosyasına kayıt yapmaz. Tablo ilk veritabanı erişiminde oluşturulur. Yerel SQLite kayıtları PostgreSQL'e otomatik aktarılmaz. Önizleme ve üretim ortamları için ayrı veritabanları kullanın. PostgreSQL adaptörü taklit bağlantıyla test edildi; gerçek sunucu bağlantısı dağıtımda doğrulanmalıdır.
 
 [Resmî Flask dağıtım rehberi](https://vercel.com/docs/frameworks/backend/flask) · [PostgreSQL bağlantısı](https://vercel.com/docs/postgres)
 
@@ -66,3 +66,5 @@ Testler geçici veritabanı ve taklit WhatsApp sağlayıcısı kullanır; gerçe
 ## Mobil kullanım
 
 Soru giriş ekranı 320×568, 375×667 ve 390×844 boyutlarında klavye kapalıyken dikey kaydırmadan kullanılacak şekilde düzenlendi. Sayısal klavye açıkken alanlara erişmek için doğal sayfa kaydırması korunur. Öğrenci bilgileri, telefonlar ve paylaşım onayı Bilgilerim penceresinde saklanır; not ayrı pencereden eklenir. Sola/sağa kaydırarak veya alt menüden Soru gir → Raporlar → Günlüğüm ekranları arasında geçilir. Raporlar son 7 günün soru toplamlarını ve ders dağılımını gösterir.
+
+`.env.example` yalnızca örnektir; GitHub’a göndermek Vercel ortam değişkenlerini ayarlamaz. Değerleri Vercel Settings → Environment Variables bölümüne, doğru ortama ekleyip yeniden dağıtın.

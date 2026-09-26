@@ -22,13 +22,14 @@ load_dotenv(BASE_DIR / '.env')
 DATA_DIR = Path(os.environ.get('DATA_DIR', str(BASE_DIR / 'data')))
 ON_VERCEL = bool(os.environ.get('VERCEL'))
 DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('POSTGRES_URL')
-if ON_VERCEL and (not DATABASE_URL or not os.environ.get('SECRET_KEY')):
-    raise RuntimeError('Vercel requires DATABASE_URL and a persistent SECRET_KEY.')
+MISSING_CONFIG = ([key for key, value in (
+    ('DATABASE_URL', DATABASE_URL), ('SECRET_KEY', os.environ.get('SECRET_KEY'))
+) if not value] if ON_VERCEL else [])
 if not ON_VERCEL:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 app = Flask(__name__)
 secret = os.environ.get('SECRET_KEY')
-if not secret:
+if not secret and not ON_VERCEL:
     secret_file = DATA_DIR / '.session-secret'
     try:
         with secret_file.open('x') as file:
@@ -45,6 +46,19 @@ app.config.update(SECRET_KEY=secret, MAX_CONTENT_LENGTH=16384,
 SUBJECTS = [('turkce', 'Türkçe', 'Tü'), ('matematik', 'Matematik', 'Ma'),
             ('fen', 'Fen Bilimleri', 'Fe'), ('inkilap', 'İnkılap Tarihi', 'İn'),
             ('ingilizce', 'İngilizce', 'En'), ('din', 'Din Kültürü', 'Di')]
+
+
+@app.before_request
+def require_deployment_config():
+    # Keep the function importable even before deployment settings are complete.
+    # Do not create unstable sessions or fall back to ephemeral SQLite on Vercel.
+    if not MISSING_CONFIG or request.path.startswith('/static/') or request.path == '/sw.js':
+        return None
+    if request.path.startswith('/api/'):
+        return jsonify(error='Sunucu kurulumu eksik: ' + ', '.join(MISSING_CONFIG)), 503
+    response = app.make_response((render_template('setup.html', missing=MISSING_CONFIG), 503))
+    response.headers['Cache-Control'] = 'no-store'
+    return response
 
 
 @contextmanager

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="tr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pusula · Kurulum</title>
+<style>body{margin:0;background:#f6f8f7;color:#20352e;font:16px/1.7 system-ui,sans-serif}main{max-width:600px;margin:8vh auto;padding:28px}article{background:white;border:1px solid #dce7dd;padding:28px;border-radius:18px}h1{font-size:25px;line-height:1.3}b{color:#16715b}code{background:#edf5f0;padding:3px 6px;border-radius:5px;overflow-wrap:anywhere}li{margin:12px 0}p{color:#61786b}</style></head>
+<body><main><b>pusula.</b><article><h1>Kurulumu tamamlayalım</h1><p>Uygulama açıldı. Kayıtları güvenle saklamak için sunucu ayarları tamamlanmalı.</p>
+<p>Eksik ayarlar: {% for key in missing %}<code>{{ key }}</code> {% endfor %}</p>
+<ol><li>Vercel projenizde <strong>Settings → Environment Variables</strong> bölümünü açın.</li>
+{% if 'DATABASE_URL' in missing %}<li>Storage / Marketplace üzerinden bir PostgreSQL veritabanı bağlayın. Bağlantı adresini <code>DATABASE_URL</code> olarak ekleyin.</li>{% endif %}
+{% if 'SECRET_KEY' in missing %}<li><code>SECRET_KEY</code> için uzun, rastgele ve sabit bir değer belirleyin. Yerel terminalinizde <code>python -c "import secrets; print(secrets.token_hex(32))"</code> ile üretebilirsiniz.</li>{% endif %}
+<li>Ayarları bu dağıtımın ortamına (Production veya Preview) ekleyin. Ardından <strong>Deployments → Redeploy</strong> yapın.</li></ol>
+<p>Öğrenciysen öğretmenine haber ver. Kurulum bitene kadar kayıt ve WhatsApp gönderimi kapalıdır.</p></article></main></body></html>
