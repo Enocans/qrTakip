@@ -7,7 +7,11 @@ from flask import Flask, redirect, render_template, request, send_file, url_for
 from openpyxl import Workbook, load_workbook
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+if os.environ.get("VERCEL") == "1" or os.environ.get("VERCEL_ENV"):
+    DATA_DIR = "/tmp/qrTakip_data"
+else:
+    DATA_DIR = os.path.join(BASE_DIR, "data")
+
 os.makedirs(DATA_DIR, exist_ok=True)
 EXCEL_PATH = os.path.join(DATA_DIR, "student_tracker.xlsx")
 DEFAULT_TEACHER = "Koç Abdulaziz"
